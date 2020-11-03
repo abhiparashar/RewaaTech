@@ -29,7 +29,8 @@ db.getConnection = function(err,connection){
 app.post('/api/v1/auth/signup',(req,res)=>{
     const username = req.body.username
     const password = req.body.password
-    db.query("INSERT INTO users(username,password) VALUES(?,?)",[username,password],(err,result)=>{
+    const email = req.body.email
+    db.query("INSERT INTO users(username,password,email) VALUES(?,?,?)",[username,password,email],(err,result)=>{
         if(err){
             res.status(500).send(err)
         }else{
@@ -39,9 +40,9 @@ app.post('/api/v1/auth/signup',(req,res)=>{
 })
 
 app.post('/api/v1/auth/signin',(req,res)=>{
-    const username = req.body.username
+    const email = req.body.email
     const password = req.body.password
-    db.query("SELECT * FROM users WHERE username=? AND password=? ",[username,password],(err,result)=>{
+    db.query("SELECT * FROM users WHERE email=? AND password=? ",[email,password],(err,result)=>{
         if(err){
             res.status(500).send(err)
         }else{
