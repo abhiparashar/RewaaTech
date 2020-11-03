@@ -25,10 +25,10 @@ db.getConnection = function(err,connection){
     }
 }
 
-app.post('/api/v1/auth/signin',(req,res)=>{
+app.post('/api/v1/auth/signup',(req,res)=>{
     const username = req.body.username
     const password = req.body.password
-    db.query("SELECT * FROM users WHERE username=? AND PASSWORD = ?",[username,password],(err,result)=>{
+    db.query("INSERT INTO users(username,password) VALUES(?,?)",[username,password],(err,result)=>{
         if(err){
             res.status(500).send(err)
         }else{
@@ -37,6 +37,75 @@ app.post('/api/v1/auth/signin',(req,res)=>{
     })
 })
 
+app.post('/api/v1/auth/signin',(req,res)=>{
+    const username = req.body.username
+    const password = req.body.password
+    db.query("SELECT * FROM users WHERE username=? AND password=? ",[username,password],(err,result)=>{
+        if(err){
+            res.status(500).send(err)
+        }else{
+            res.status(200).send(result)
+        }
+    })
+})
+
+app.get('/api/v1/products',(req,res)=>[
+    db.query("SELECT * FROM products",(err,result)=>{
+        if(err){
+            res.send(err)
+        }
+        else{
+            res.send(result)
+        }
+    })
+])
+
+app.get('/api/v1/products/:id',(req,res)=>{
+     db.query("SELECT * FROM products WHERE id=?",[req.params.id],(err,result)=>{
+        if(err){
+            res.send(err)
+        }
+        else{
+            res.send(result)
+        }
+    })
+})
+
+app.post('/api/v1/products/createproduct',(req,res)=>{
+    const name = req.body.name
+    const price = req.body.price
+    const quantity = req.body.quantity
+     db.query("INSERT INTO products(name,price,quantity) VALUES(?,?,?)",[name,price,quantity],(err,result)=>{
+        if(err){
+            res.send(err)
+        }
+        else{
+            res.send(result)
+        }
+    })
+})
+
+app.delete('/api/v1/products/:id',(req,res)=>{
+     db.query("DELETE FROM products WHERE id=?",[req.params.id],(err,result)=>{
+        if(err){
+            res.send(err)
+        }
+        else{
+            res.send(result)
+        }
+    })
+})
+
+// app.delete('/api/v1/products/:id',(req,res)=>{
+//      db.query("DELETE FROM products WHERE id=?",[req.params.id],(err,result)=>{
+//         if(err){
+//             res.send(err)
+//         }
+//         else{
+//             res.send(result)
+//         }
+//     })
+// })
 
 
 const port = process.env.PORT || 6500
