@@ -11,15 +11,15 @@ const pool = mysql.createConnection({
     database:'rewaa'
 })
 
-pool.getConnection((err,connection)=>{
-    if(err){
-        console.log('connection not established')
-    }
-    else{
-        connection.release()
-    }
-})
+// pool.getConnection((err,connection)=>{
+//     if(err){
+//         console.log('connection not established')
+//     }
+//     else{
+//         connection.release()
+//     }
+// })
 
 pool.query = util.promisify(pool.query)
 
-module.exports = pool
+// module.exports = pool
