@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 const app = express()
 
 app.use(express.json())
+app.use(cors())
 
 const db = mysql.createConnection({
     connectionLimit:10,
@@ -96,16 +97,23 @@ app.delete('/api/v1/products/:id',(req,res)=>{
     })
 })
 
-// app.delete('/api/v1/products/:id',(req,res)=>{
-//      db.query("DELETE FROM products WHERE id=?",[req.params.id],(err,result)=>{
-//         if(err){
-//             res.send(err)
-//         }
-//         else{
-//             res.send(result)
-//         }
-//     })
-// })
+app.put('/api/v1/products/:id',(req,res)=>{
+    const name = req.body.name
+    const price = req.body.price
+    const quantity = req.body.quantity
+    let data = [name,price,quantity,req.params.id]
+     let sql = `UPDATE products
+            SET name = ?, price=?, quantity=?
+            WHERE id = ?`
+     db.query(sql,data,function(err,result){
+    if (err){
+        res.send(err)
+    }
+    else{
+        res.send(result)
+    }
+    })
+})
 
 
 const port = process.env.PORT || 6500
