@@ -31,6 +31,9 @@ export default function ButtonAppBar() {
           <Button color="inherit">login</Button>
         </Toolbar>
       </AppBar>
+      <div>
+        <h1>Hello from Rewaa Teach</h1>
+      </div>
     </div>
   );
 }

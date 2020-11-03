@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
-  const [name, setname] = useState('');
+  const [username, setname] = useState('');
     const [email, setemail] = useState('');
     const [password, setpassword] = useState('');
 
@@ -64,7 +64,7 @@ export default function SignUp() {
     const handleSubmit = async e => {
         e.preventDefault();
 
-        const data = { name, email, password };
+        const data = { username, email, password };
         await signup(data);
     };
 
@@ -85,11 +85,11 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                id="name"
-                label="Name"
-                name="name"
-                autoComplete="name"
-                onChange={e => handleChange('name', e.target.value)}
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
+                onChange={e => handleChange('username', e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
